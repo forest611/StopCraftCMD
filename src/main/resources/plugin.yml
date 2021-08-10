@@ -1,0 +1,6 @@
+name: StopCraftCMD
+version: 1.0
+softdepend:
+  - Man10CommonLibs
+main: red.man10.stopcraftcmd.StopCraftCMD
+api-version: 1.16
