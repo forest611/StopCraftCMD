@@ -1,12 +1,15 @@
 package red.man10.stopcraftcmd
 
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.CraftItemEvent
+import org.bukkit.event.inventory.InventoryAction
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.ItemStack
 import java.util.*
 
@@ -29,12 +32,20 @@ class StopCraftCMD : JavaPlugin(), Listener {
         InventoryType.BEACON,
         InventoryType.ENCHANTING,
         InventoryType.GRINDSTONE,
-        InventoryType.SMITHING
+        InventoryType.SMITHING,
+        InventoryType.BREWING
     )
 
     @EventHandler
     fun clickEvent(e: InventoryClickEvent) {
-        if (!craftingList.contains(e.inventory.type)) return
+        if (!craftingList.contains(e.view.type)) return
+
+        Bukkit.getLogger().info(e.action.name)
+        if (e.action == InventoryAction.HOTBAR_SWAP){
+            e.isCancelled = true
+            return
+        }
+
         val item = e.currentItem?:return
 
         if (!item.hasItemMeta()) return
