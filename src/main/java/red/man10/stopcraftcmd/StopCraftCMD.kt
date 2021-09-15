@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
+import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import java.util.*
 
@@ -40,7 +41,8 @@ class StopCraftCMD : JavaPlugin(), Listener {
     fun clickEvent(e: InventoryClickEvent) {
         if (!craftingList.contains(e.view.type)) return
 
-        Bukkit.getLogger().info(e.action.name)
+        if (e.clickedInventory != e.whoClicked.inventory)return
+
         if (e.action == InventoryAction.HOTBAR_SWAP){
             e.isCancelled = true
             return
@@ -63,6 +65,7 @@ class StopCraftCMD : JavaPlugin(), Listener {
         for (item in items){
             if (item.type == Material.AIR)continue
             if (!item.hasItemMeta())continue
+            if (item.isSimilar(e.recipe.result))continue
 
             if (item.itemMeta.hasCustomModelData() && item.itemMeta.customModelData!=0){
                 e.isCancelled = true
@@ -70,7 +73,6 @@ class StopCraftCMD : JavaPlugin(), Listener {
             }
 
         }
-
 
     }
 }
