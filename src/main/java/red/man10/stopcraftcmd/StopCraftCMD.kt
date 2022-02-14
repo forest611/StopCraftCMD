@@ -34,7 +34,8 @@ class StopCraftCMD : JavaPlugin(), Listener {
         InventoryType.ENCHANTING,
         InventoryType.GRINDSTONE,
         InventoryType.SMITHING,
-        InventoryType.BREWING
+        InventoryType.BREWING,
+        InventoryType.BLAST_FURNACE
     )
 
     @EventHandler
